@@ -10,7 +10,7 @@
               locale="es-mx"
               :min="minimo"
               :max="maximo"
-              @change="getDolar(fecha)">
+              @change="getDolar(picker)">
             </v-date-picker>
           </v-row>
         </v-card>
@@ -40,10 +40,11 @@ export default {
   methods: {
     ...mapMutations(['mostrarLoading', 'ocultarLoading']),
     async getDolar (dia) {
+      // console.log(dia)
       let arrayFecha = dia.split('-')
-      // console.log(arrayFecha)
+      console.log(arrayFecha)
       let ddmmyyy = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0]
-      console.log(ddmmyyy)
+      // console.log(ddmmyyy)
       try {
         this.mostrarLoading({ titulo: 'Accediendo a información', color: 'secondary' })
         let datos = await axios.get(`https://mindicador.cl/api/dolar/${ddmmyyy}`)
@@ -61,7 +62,7 @@ export default {
     }
   },
   created () {
-    this.getDolar('01-02-2019')
+    this.getDolar(new Date().toISOString().substr(0, 10))
     /* axios.get('https://mindicador.cl/api/dolar')
       .then(response => {
         this.dolar = response.data
